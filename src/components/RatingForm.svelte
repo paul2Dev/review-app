@@ -1,8 +1,5 @@
 <script>
-    import {createEventDispatcher} from "svelte";
-
-    const dispatch = createEventDispatcher();
-
+    import { ReviewStore } from '../stores';
 
     let btnDisabled = true;
     let style = 'disabled'
@@ -25,8 +22,7 @@
     }
 
     const handleRatingSelect = (e) => {
-        rating = e.target.value
-        dispatch('rating-selected', rating)
+        rating = parseInt(e.target.value)
     }
 
     const submitRatingForm = (e) => {
@@ -39,7 +35,17 @@
             btnDisabled = false
             style = ''
             errorMessage = null
-            dispatch('submit-rating', {rating, text})
+            ReviewStore.update((reviewList) => {
+                return [
+                    ...reviewList,
+                    {
+                        id: Math.random().toString(),
+                        rating,
+                        text
+                    }
+                ]
+            })
+            text = ''
         }
     }
 </script>
