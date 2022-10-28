@@ -1,4 +1,5 @@
 <script>
+    import {fade, scale} from 'svelte/transition'
     import { createEventDispatcher } from "svelte";
     import RatingItem from "./RatingItem.svelte";
     export let ratingList = []
@@ -11,5 +12,7 @@
 </script>
 
 {#each ratingList as rating (rating.id)}
-    <RatingItem {rating} on:delete-rating={forward} />
+    <div in:scale out:fade>
+        <RatingItem {rating} on:delete-rating={forward} />
+    </div>
 {/each}
